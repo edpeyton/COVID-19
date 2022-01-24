@@ -293,7 +293,7 @@ function(input, output, session) {
 
     shiny::h4(
       shiny::HTML(
-      paste0(ifelse(input$cumulative, "Cumulative ", "New "), input$type_choice, " (", ifelse(input$per_choice=="Per capita", paste0("Per 10", tags$sup(6), " people"), input$per_choice), ") ", format(as.Date(input$dates), "%d %b %Y"))
+      paste0(ifelse(input$cumulative=="Cumulative", "Cumulative ", "New "), input$type_choice, " (", ifelse(input$per_choice=="Per capita", paste0("Per 10", tags$sup(6), " people"), input$per_choice), ") ", format(as.Date(input$dates), "%d %b %Y"))
     ))
 
   })
