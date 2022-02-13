@@ -1,49 +1,5 @@
 
-#library(dplyr)
-#library(lubridate)
-#library(shiny)
-#library(viridis)
-#library(kableExtra)
-#library(leaflet)
-#library(shinyAce)
-#library(shinythemes)
 
-
-is.increasing = function(x) {
-
-  x = x[!is.na(x)]
-
-  if (all(x[2:length(x)]>=x[1:(length(x)-1)])) {
-    return(1)
-  } else {
-    return(0)
-  }
-
-}
-
-
-smooth_data = function(x) {
-
-
-  for (i in unique(x$key_apple_mobility)) {
-
-    data = x %>% dplyr::filter(key_apple_mobility==i)
-
-    for (j in c("confirmed", "deaths", "vaccines", "hosp", "icu")) {
-
-      if (!is.increasing(data %>% dplyr::pull(!!rlang:::sym(j)))) {
-
-      }
-
-    }
-
-
-  }
-
-}
-
-#shiny::shinyApp(ui = ui,
-#server =
 function(input, output, session) {
 
   output$slider = shiny::renderUI({
@@ -75,7 +31,7 @@ function(input, output, session) {
 
   get_states = shiny::reactive({
 
-    geojsonio::geojson_read(x = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json", what = "sp")
+    geojsonio::geojson_read(x = "json/states.json", what = "sp")
 
   })
 
@@ -169,15 +125,6 @@ function(input, output, session) {
                        by = c("name" = "key_google_mobility")) %>%
       dplyr::mutate(RANK = rank(density, na.last = "keep"))
 
-    #if (input$type_choice %in% c("Recovered", "Vaccinations")) {
-#
-    #  ranks = rank(states@data$density, na.last = "keep")
-    #  ranks = tryCatch({max(ranks, na.rm = TRUE) - ranks + min(ranks, na.rm = TRUE)}, warning = function(w) {assign("check", states@data, .GlobalEnv);assign("dates", input$dates, .GlobalEnv)})
-#
-    #  states@data = states@data %>%
-    #    dplyr::mutate(RANK = ranks)
-#
-    #}
 
     if (input$cumulative=="New" & input$per_choice=="Total") {
 
@@ -197,7 +144,6 @@ function(input, output, session) {
 
       if (input$per_choice=="Total") {
         bins = unique(floor(quantile(covdata$VAR, seq(0, 1, length.out = 10), na.rm = TRUE)))
-        #bins = 10^seq(floor(log10(max(0, min(covdata$VAR, na.rm = TRUE)))), ceiling(log10(max(0, max(covdata$VAR, na.rm = TRUE)))))
       } else {
         bins = unique(quantile(covdata$VAR, seq(0, 1, length.out = 10), na.rm = TRUE))
       }
@@ -259,12 +205,6 @@ function(input, output, session) {
         color = "white",
         dashArray = "3",
         fillOpacity = 0.7,
-        #highlight = leaflet::highlightOptions(
-        #  weight = 3,
-        #  color = "#666",
-        #  dashArray = "",
-        #  fillOpacity = 0.7,
-        #  bringToFront = TRUE)#,
         label = labels,
         labelOptions = leaflet::labelOptions(textOnly = FALSE, permanent = FALSE, noHide = FALSE, sticky = TRUE, clickable = FALSE, interactive = FALSE)
       ) %>%
@@ -299,4 +239,4 @@ function(input, output, session) {
   })
 
 }
-#)
+

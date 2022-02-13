@@ -8,25 +8,13 @@ library(leaflet)
 library(shinyAce)
 library(shinythemes)
 
-#showfiles =  list(
-#  shinyAce::aceEditor("ui",
-#                      value = paste(readLines("ui.R"), collapse="\n"),
-#                      mode="r", theme="cobalt", height="500px",
-#                      readOnly = TRUE),
-#  shinyAce::aceEditor("server",
-#                      value = paste(readLines("server.R"), collapse="\n"),
-#                      mode="r", theme="cobalt", height="500px",
-#                      readOnly = TRUE)
-#)
 
-#ui=
 shiny::fluidPage(theme = shinythemes::shinytheme("slate"),
 
-  tags$head(tags$style(type='text/css', ".slider-animate-button { font-size: 15pt !important; }")),
+  shiny::tags$head(shiny::tags$style(type='text/css', ".slider-animate-button { font-size: 15pt !important; }")),
 
   shiny::br(),
   shiny::h2(list("Visualizing the spread of COVID-19 in the US", shiny::a(shiny::img(src = 'https://raw.githubusercontent.com/jhass/github_desktop_notifications/master/res/icons/GitHub-Mark-Light-32px.png', align = "right"), href = "https://github.com/edpeyton/COVID-19", target = "_blank"))),
-  #,
   shiny::helpText("This application animates the spread of COVID-19 throughout the US, using data sourced from the COVID-19 data hub."),
   shiny::br(),
   shiny::helpText("For further details see the References tab."),
@@ -52,10 +40,6 @@ shiny::fluidPage(theme = shinythemes::shinytheme("slate"),
                                           shiny::br(),
                                           shiny::selectInput("per_choice", "Select units", choices = c("Total", "Per capita", "Per case")),
                                           shiny::br(),
-                                          #shiny::selectInput("plot_choice",
-                                          #                   "Select plot type",
-                                          #                   choices = c("Choropleth",
-                                          #                               "Markers")),
                                           shiny::br(),
                                           shiny::hr(),
                                           shiny::fluidRow(shiny::column(width = 10,
@@ -84,11 +68,6 @@ shiny::fluidPage(theme = shinythemes::shinytheme("slate"),
                                                   shiny::dataTableOutput("citation"),
                                                   shiny::br()),
                                     shiny::column(width = 1)))#,
-    #shiny::tabPanel("app.R",
-    #                shiny::br(),
-    #                shiny::helpText("The following are the ui.R and server.R files used to generate this application, respectively."),
-    #                shiny::br(),
-    #                showfiles)
     ),
   shiny::hr()
 
